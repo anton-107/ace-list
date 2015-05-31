@@ -1,0 +1,27 @@
+{
+  "name"        : "connect-store",
+  "version"     : "0.1.5",
+  "authors"     : [
+    "Anton Nekipelov <anton.nekipelov@gmail.com>"
+  ],
+  "license"     : "MIT",
+  "ignore"      : [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests",
+    "reports",
+    "demo",
+    ".gitignore",
+    ".jshintrc",
+    "Gruntfile.js",
+    "index.html",
+    "module.js",
+    "package.json",
+    "README.md"
+  ],
+  "dependencies": {
+    "ace-builds": "1.1.9"
+  }
+}

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>ACE in Action</title>
+    <style type="text/css" media="screen">
+        #editor {
+            width: 50%;
+            height: 400px;
+        }
+    </style>
+</head>
+<body>
+
+<div id="editor">
+List 1
+======
+* Item 1.1
+* Item 1.2
+* Item 1.3
+* Item 1.4
+* Item 1.5
+* Item 1.6
+* Item 1.7
+* Item 1.8
+* Item 1.9
+* Item 1.10
+</div>
+
+<script src="bower_components/ace-builds/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
+<script>
+    var editor = ace.edit("editor");
+    editor.setTheme("ace/theme/chrome");
+    editor.getSession().setMode("ace/mode/markdown");
+</script>
+</body>
+</html>
