@@ -22,6 +22,7 @@
     "README.md"
   ],
   "dependencies": {
-    "ace-builds": "1.1.9"
+    "ace-builds": "1.1.9",
+    "marked": "0.3.3"
   }
 }

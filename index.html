@@ -6,6 +6,11 @@
         #editor {
             width: 50%;
             height: 400px;
+            float: left;
+        }
+        #parsed {
+            width: 50%;
+            height: 400px;;
         }
     </style>
 </head>
@@ -26,11 +31,26 @@ List 1
 * Item 1.10
 </div>
 
+<pre id="parsed">
+
+</pre>
+
+<div id="html">
+
+</div>
+
+<script src="bower_components/marked/lib/marked.js"></script>
 <script src="bower_components/ace-builds/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
 <script>
     var editor = ace.edit("editor");
     editor.setTheme("ace/theme/chrome");
     editor.getSession().setMode("ace/mode/markdown");
+
+    editor.on("change", function (event, editor) {
+        var html = marked(editor.getValue());
+        document.getElementById('parsed').innerText = html;
+        document.getElementById('html').innerHTML = html;
+    });
 </script>
 </body>
 </html>
