@@ -18,11 +18,9 @@
 
 <div id="editor_toolbar">
     <button id="list_button">Toggle list</button>
+    <button id="select_every_second_line_button">Select every 2nd line</button>
 </div>
-<div id="editor">
-List 1
-======
-* Item 1.1
+<div id="editor">* Item 1.1
 * Item 1.2
 * Item 1.3
 * Item 1.4
@@ -102,6 +100,15 @@ List 1
 
 //            console.log('selection', editor.selection);
         }
+    });
+
+    var Range = ace.require('ace/range').Range;
+    var select_every_second_line_button = document.getElementById('select_every_second_line_button');
+    select_every_second_line_button.addEventListener('click', function () {
+        for (var i = 1, l = editorSession.getLength(); i < l; i+=2) {
+            editor.selection.addRange(new Range(i,0,i,editorSession.getLine(i).length));
+        }
+        editor.focus();
     });
 </script>
 </body>
