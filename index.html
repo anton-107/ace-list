@@ -16,6 +16,9 @@
 </head>
 <body>
 
+<div id="editor_toolbar">
+    <button id="list_button">Toggle list</button>
+</div>
 <div id="editor">
 List 1
 ======
@@ -44,12 +47,61 @@ List 1
 <script>
     var editor = ace.edit("editor");
     editor.setTheme("ace/theme/chrome");
-    editor.getSession().setMode("ace/mode/markdown");
+    var editorSession = editor.getSession();
+    editorSession.setMode("ace/mode/markdown");
 
     editor.on("change", function (event, editor) {
         var html = marked(editor.getValue());
         document.getElementById('parsed').innerText = html;
-        document.getElementById('html').innerHTML = html;
+//        document.getElementById('html').innerHTML = html;
+    });
+
+    // edit button:
+    var list_button = document.getElementById('list_button');
+    list_button.addEventListener('click', function () {
+        var selectionRange = editor.getSelectionRange();
+
+        if (selectionRange && selectionRange.start && selectionRange.end) {
+            selectionRange.setStart(selectionRange.start.row, 0);
+            selectionRange.setEnd(selectionRange.end.row, editorSession.getLine(selectionRange.end.row).length);
+
+            editor.selection.setRange(selectionRange);
+
+            editor.focus();
+            var looksLikeList = editorSession.getLine(selectionRange.start.row).substring(0,2) === '* ';
+            var isConvertingFromPlainTextToList = !looksLikeList;
+            var isConvertingFromListToPlainText = looksLikeList;
+
+            var text = [];
+
+            for (var i = selectionRange.start.row; i < selectionRange.end.row + 1; i++) {
+                var line = editorSession.getLine(i);
+
+                if (isConvertingFromPlainTextToList) {
+                    if (line[0] !== '*') {
+                        line = '* ' + line;
+                    }
+                } else if (isConvertingFromListToPlainText) {
+                    if (line[0] === '* ') {
+                        line = line.substring(3);
+                    } else if (line[0] === '*') {
+                        line = line.substring(2);
+                    }
+                }
+
+                text.push(line);
+            }
+            console.log('isConvertingFromListToPlainText', isConvertingFromListToPlainText);
+            console.log('isConvertingFromPlainTextToList', isConvertingFromPlainTextToList);
+            console.log(text.join('\n'));
+
+            editorSession.replace(selectionRange, text.join('\n'));
+
+            selectionRange.setEnd(selectionRange.end.row, text.pop().length);
+            editor.selection.setRange(selectionRange);
+
+//            console.log('selection', editor.selection);
+        }
     });
 </script>
 </body>
