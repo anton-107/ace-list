@@ -20,16 +20,10 @@
     <button id="list_button">Toggle list</button>
     <button id="select_every_second_line_button">Select every 2nd line</button>
 </div>
-<div id="editor">* Item 1.1
-* Item 1.2
-* Item 1.3
-* Item 1.4
-* Item 1.5
-* Item 1.6
-* Item 1.7
-* Item 1.8
-* Item 1.9
-* Item 1.10
+<div id="editor">{
+    "key1": "value1",
+    "list1": ["one", "two", "three"]
+}
 </div>
 
 <pre id="parsed">
@@ -46,11 +40,19 @@
     var editor = ace.edit("editor");
     editor.setTheme("ace/theme/chrome");
     var editorSession = editor.getSession();
-    editorSession.setMode("ace/mode/markdown");
+    editorSession.setMode("ace/mode/json");
 
     editor.on("change", function (event, editor) {
-        var html = marked(editor.getValue());
-        document.getElementById('parsed').innerText = html;
+        var html;
+//        console.log('val', editor.getValue());
+//        console.log('json', JSON.parse(editor.getValue()));
+        try {
+            html = JSON.parse(editor.getValue());
+        } catch (e) {
+            html = "Doesn't seem to be valid json";
+        }
+        document.getElementById('parsed').innerText = JSON.stringify(html);
+//        var html = marked(editor.getValue());
 //        document.getElementById('html').innerHTML = html;
     });
 
